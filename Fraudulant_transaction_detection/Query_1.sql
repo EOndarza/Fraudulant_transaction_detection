@@ -1,20 +1,19 @@
 SELECT
-	t.trans_id,
-	t.trans_date,
-    amount,
-    name
-	
-FROM transactions t
-JOIN credit_card cc
-ON t.card = cc.card_number
-JOIN card_holder ch
-ON cc.ch_id = ch.ch_id       
-WHERE amount < 2.00 AND t.trans_date BETWEEN '2018-01-01 07:00:00' AND '2018-12-31 09:00:00'
-GROUP BY
-	t.trans_id,
-    amount,
+    COUNT(card),
+    card,
     name,
-	t.trans_date
+	amount
+FROM 
+    transactions t
+JOIN credit_card cc
+on cc.card_number = t.card
+JOIN card_holder ch
+ON cc.ch_id = ch.ch_id
+WHERE amount < '2.00'
+GROUP BY 
+    ch.name,
+	card,
+	t.amount
 ORDER BY
-   t.trans_date DESC    
-;    
+    ch.name    
+; 
